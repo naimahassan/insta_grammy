@@ -1,0 +1,62 @@
+{% extends 'all-grammy/base.html' %} {% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="grammy.js"></script>
+
+
+
+<div class="container">
+    <div class="col-lg-6 col-lg-offset-3">
+        <div class="card" style="width:30rem;border:1.5px solid #ccc">
+            <div class="card-body" style="border-bottom-color:#ccc">
+
+                {%for profile in profiles%}
+                <img src="{{profile.image.url}}" alt="" style="width:40%;border-radius:50%">
+                <h2>{{profile.user}}</h2>
+                {%endfor%}
+
+                {%for grammy_items in grammy%}
+                
+                {% for following_items in following%}
+                {%endfor%}
+
+
+                <a href="#">{{profile.user}} </a>
+                <h5>{{grammy_items.caption |safe}}</h5>
+
+                <img src="{{grammy_items.image.url}}" alt="">
+                
+                <span>
+                    <i class="fa fa-heart"></i>likes</span>
+                
+                <span>
+                    <i class="fa fa-comment"></i>comments</span>
+
+
+                <div class="feed-footer">
+                    <input type="text" class="ny" placeholder="Add a comment..." />
+                </div>
+
+                {% for comment_items in comment %}
+                <span class="comment-text"> {{comment_items.comments.url}} </span>
+                <div class="card-comment">
+                    <b class="comment-user">{{ user.url }}</b>
+
+                </div>
+
+            </div>
+        </div>
+        <br>
+<br>
+<br>
+        {%endfor%} {%endfor%}
+    </div>
+</div>
+
+
+<div id="instafeed-gallery-feed" class="gallery row no-gutter"></div>
+<button id="btn-instafeed-load" class="btn">Load more</button>
+
+
+{% endblock%}

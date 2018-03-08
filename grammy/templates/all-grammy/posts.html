@@ -1,0 +1,47 @@
+{% extends 'all-grammy/base.html' %} {% load staticfiles%} {% load bootstrap3%} {% block styles %} {{block.super}} {% endblock
+%} {% block content %} {{block.super}}
+
+<div class="container">
+
+    {%if following_posts%}
+
+    <div class="row ">
+
+        {%for follow in following_posts%}
+
+        <!-- Profile Div -->
+
+        <div class="col-md-10 col-lg-10">
+
+            <div class="card">
+                <img src="{{follow.profile.profile_pic.url}}" alt="{{follow.profile.user.username}}">
+
+                <h6 class="username">
+                    {{follow.profile.user.username}}
+                </h6>
+            </div>
+            <div class="card">
+
+                <a href="{%url 'post' follow.id%}">
+
+                    <img src="{{follow.image.url}}" alt="{{follow.caption}}">
+
+                    <h5 class="text-center">
+                        {{follow.caption}}
+                    </h5>
+
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{%else%}
+
+<h2 class="text-center">
+    You are Not Following Anyone
+</h2>
+
+{%endif%}
+{% endblock %}
