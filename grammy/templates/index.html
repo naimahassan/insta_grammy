@@ -25,10 +25,15 @@
 
                 <img src="{{grammy_items.image.url}}" alt="">
                 
-                <span>
-                    <i class="fa fa-heart"></i>likes</span>
                 
-                <span>
+                        <span style="margin-top:10px; font-weight:bold; font-size:15px; ">
+                                {% if validate_vote == 0 %}
+                                <a href="{% url 'likes' image.id %}" >
+                    <i class="fa fa-heart"  style="color:pink" ></i></a>
+                    {%endif%}
+                    <!-- {{likess}} -->
+                    likes</span>
+                    <span>
                     <i class="fa fa-comment"></i><a href ="{%url 'comment'%}"><i>comments</i></a></span>
 
 

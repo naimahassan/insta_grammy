@@ -1,34 +1,15 @@
 from django.db import models
 from tinymce.models import HTMLField
 from django.core.urlresolvers import reverse
+import django.contrib.auth.models import User
 # Creating Image models. 
-
-# user models
-class User(models.Model):
-    first_name = models.CharField(max_length = 60)
-    last_name = models.CharField(max_length = 60)
-    email = models.EmailField()
-    image = models.ImageField(upload_to = 'user/',default=1)
-
-    def __str__(self):
-        return self.first_name
-
-    def save_user(self):
-        self.save()    
- 
-    
-    @classmethod
-    def image_profile(cls):
-        gram= cls.objects.all()
-        return gram
-
 
 # profile model
 class Profile(models.Model):
-
-     image = models.ImageField(upload_to = 'user/', null = True, blank = True)
+     image = models.ImageField(upload_to = 'profile/', null = True, blank = True)
      bio = models.CharField(max_length = 255,blank = True)
-     user =  models.ForeignKey(User, null = True, db_column="image_id", to_field='id')
+     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
 
      def __str__(self):
         return str(self.image)
@@ -46,28 +27,24 @@ class Profile(models.Model):
 
 
      @classmethod
-     def search_by_grammer(cls,search_term):
+     def searched_profile(cls,search_term):
         query = cls.objects.filter(bio__icontains=search_term)
         return query    
 
-    #  def get_other_profile(cls,user_id):
-    #     profiles = Profile.objects.all()
-    #     other_profiles = []
-    #     for profile in profiles:
-    #         if profile.user.id != user_id:
-    #     return other_profiles                   
+                  
 
-class Comments(models.Model):
+class Comment(models.Model):
     comments = models.TextField(max_length = 100)
-    user = models.ForeignKey(User,null = True)
-
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    
 
     def __str__(self):
-        return self.comments
+        return self.username
 
 
     @classmethod
-    def get_comments(cls):
+    def get_comments(cls,post_id):
         comment =  Follow.objects.all()
         return comment    
     
@@ -80,46 +57,49 @@ class Comments(models.Model):
 
 
 class Follow(models.Model):
-    user = models.ForeignKey(User,null = True)
+    user = models.ForeignKey(User)
     profile = models.ForeignKey(Profile,null = True)
     
     def __str__(self):
-        return self.user.first_name
+        return self.profile
 
     @classmethod
-    def get_following(cls):
-        following =  Follow.objects.all()
+    def get_following(cls,user_id):
+        following =  Follow.objects.filter(user=user_id).all()
         return following
 
 
 class Likes(models.Model):
     likes = models.IntegerField(default=0)
-    user =  models.ForeignKey(User, null = True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
     likes_number = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.likes
-
+    
+    #one post like
     @classmethod
     def get_post_likes(cls,post_id):
         post_likes = Likes.objects.filter(post = post_id)
         return post_likes  
 
+    #total numbers of likes
     @classmethod
-    def get_likes(cls):
-        like = Likes.objects.all()
-        return like     
+    def num_likes(cls,post_id):
+        post = Likes.objects.filter(post=post_id)    
 
 
 # post models
 class Post(models.Model):
-    image = models.ImageField(upload_to = 'user/', null = False, blank = False, default=1)     
+    image = models.ImageField(upload_to = 'post/', null = False, blank = False, default=1)     
     name = models.CharField(max_length = 60)
     caption = HTMLField()
-    user = models.ForeignKey(User,null=True)
     likes = models.IntegerField(default=0)
     profile = models.ForeignKey(Profile, null = True)
     comments = models.ForeignKey(Comments, null = True)
+    user = models.ForeignKey(User)
+
     def __str__(self):
         return self.name
 

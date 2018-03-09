@@ -3,10 +3,11 @@ from django.http import HttpResponse
 import datetime as dt 
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Post,Comments,Likes,Follow
-from . forms import NewPostForm, NewCommentForm
+from . forms import NewPostForm, NewCommentForm,NewProfileForm
 import mimetypes
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your views here.
@@ -47,6 +48,7 @@ def all_images(request):
                 following_posts.append(post)
 
     return render(request, 'all-grammy/posts.html',{"following":following, "user":user, "following_posts":following_posts})            
+
 #adding a profile to the posts
 @login_required(login_url='/accounts/register')
 def follow(request,id):
@@ -113,5 +115,16 @@ def comment(request):
         form = NewCommentForm()
     return render(request,'all-grammy/new-comment.html', {"form":form,"current_post":post})        
 
-
+@login_required(login_url='/accounts/register')
+def profile(request):
+    post = Post.objects.all()
+    if request.method == 'POST':
+        form = NewProfileForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.save()
+            return redirect('/')
+    else:
+        form = NewProfileForm()
+    return render(request,'all-grammy/new-profile.html', {"form":form,"current_post":post})
 
