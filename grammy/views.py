@@ -15,6 +15,7 @@ def index(request):
     grammy = Post.all_images()
     profiles = Profile.get_profile()
     comment = Comments.get_comments()
+    like = Likes.get_likes()
     following = Follow.get_following()
     following_posts = []
 
@@ -22,7 +23,7 @@ def index(request):
         for posts in post:
             if follow.profile == post.profile:
                 following_posts.append(post)
-    return render(request,'index.html',{"grammy":grammy,"profiles":profiles,"following": following, "user":current_user, "following_posts":following_posts})
+    return render(request,'index.html',{"grammy":grammy,"profiles":profiles,"following": following, "user":current_user, "following_posts":following_posts,"like":like})
 
 #logged in user on the profile icon
 
@@ -79,10 +80,10 @@ def post(request,id):
     try:
         current_post = Post.objects.get(id=id)
         likes = Like.num_likes(id)
-        likes = Likes.objects(filter(post = id).filter(user = current_user))
+        like = Likes.get_likes(filter(post = id).filter(user = current_user))
     except DoesNotExist:
         raise Http404()
-    return render(request, 'all-grammy/post.html',{"post":current_post,"likes":likes,"likes":likes})        
+    return render(request, 'all-grammy/posts.html',{"post":current_post,"likes":likes,"like":like})        
 
 
 @login_required(login_url='/accounts/login/')
@@ -98,19 +99,19 @@ def new_post(request):
         form = NewPostForm()
     return render(request, 'all-grammy/new-post.html', {"form":form})     
 
-        
+
 @login_required(login_url='/accounts/register')
-def comment(request,id):
-    current_user = request.user
-    current_post = Post.objects.get(id=id)
+def comment(request):
+    post = Post.objects.all()
     if request.method == 'POST':
         form = NewCommentForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             comment = form.save(commit=False)
-            comment.user = current_user
-            comment.post = current_post
             comment.save()
-            return redirect(post,current_post.id)
+            return redirect('/')
     else:
         form = NewCommentForm()
-    return render(request,'all-posts/new-comment.html', {"title":title,"form":form,"current_post":current_post})        
+    return render(request,'all-grammy/new-comment.html', {"form":form,"current_post":post})        
+
+
+

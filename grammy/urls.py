@@ -10,8 +10,7 @@ urlpatterns=[
     url(r'^follow/(\d+)', views.follow, name = "follow"),
     url(r'^likes/(\d+)' ,views.likes , name = "likes"),
     url(r'^post/(\d+)',views.post,name = "post"),
-    url( r'^post/(\d+)', views.post, name="post"),
-    url( r'^create/comment(\d+)', views.comment, name="comment" ),
+    url(r'^create/comment/$', views.comment, name="comment" ),
 
 
 ]

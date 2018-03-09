@@ -44,6 +44,12 @@ class Profile(models.Model):
         profiles = Profile.objects.all()
         return profiles
 
+
+     @classmethod
+     def search_by_grammer(cls,search_term):
+        query = cls.objects.filter(bio__icontains=search_term)
+        return query    
+
     #  def get_other_profile(cls,user_id):
     #     profiles = Profile.objects.all()
     #     other_profiles = []
@@ -93,13 +99,18 @@ class Likes(models.Model):
         post_likes = Likes.objects.filter(post = post_id)
         return post_likes  
 
+    @classmethod
+    def get_likes(cls):
+        like = Likes.objects.all()
+        return like     
+
 
 # post models
 class Post(models.Model):
     image = models.ImageField(upload_to = 'user/', null = False, blank = False, default=1)     
     name = models.CharField(max_length = 60)
     caption = HTMLField()
-    user = models.ForeignKey(User, null = True)
+    user = models.ForeignKey(User,null=True)
     likes = models.IntegerField(default=0)
     profile = models.ForeignKey(Profile, null = True)
     comments = models.ForeignKey(Comments, null = True)

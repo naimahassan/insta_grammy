@@ -5,7 +5,7 @@
 
     {%if following_posts%}
 
-    <div class="row ">
+    <div class="row">
 
         {%for follow in following_posts%}
 
@@ -14,10 +14,10 @@
         <div class="col-md-10 col-lg-10">
 
             <div class="card">
-                <img src="{{follow.profile.profile_pic.url}}" alt="{{follow.profile.user.username}}">
+                <img src="{{follow.profile.profile_pic.url}}" alt="{{follow.profile.user.name}}">
 
-                <h6 class="username">
-                    {{follow.profile.user.username}}
+                <h6 class="name">
+                    {{follow.profile.user.name}}
                 </h6>
             </div>
             <div class="card">
