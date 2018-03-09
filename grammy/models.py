@@ -70,7 +70,13 @@ class Comments(models.Model):
     def get_comments(cls):
         comment =  Follow.objects.all()
         return comment    
+    
+    #to get comments on a single post
 
+    @classmethod
+    def get_post_comments(cls,post_id):
+        comments_list = Comment.objects.filter(post=post_id)
+        return comments_list
 
 
 class Follow(models.Model):
