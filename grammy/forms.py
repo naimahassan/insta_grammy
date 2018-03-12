@@ -1,4 +1,4 @@
-from .models import Post, Comments
+from .models import Post, Comment,Profile
 from django import forms
 
 class NewPostForm(forms.ModelForm):
@@ -8,10 +8,10 @@ class NewPostForm(forms.ModelForm):
 
 class NewCommentForm(forms.ModelForm):
     class Meta:
-        model = Comments
+        model = Comment
         exclude = ['user']
 
 class NewProfileForm(forms.ModelForm):
     class Meta:
-        model = Comments
+        model = Profile
         exclude = ['user']

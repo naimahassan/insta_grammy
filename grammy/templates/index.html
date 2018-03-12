@@ -42,7 +42,7 @@
                 </div>
 
                 {% for comment_items in comment %}
-                <span class="comment-text"> {{comment_items.comments.url}} </span>
+                <span class="comment-text"> {{comment_items.comments.url,comment_items.post_id}} </span>
                 <div class="card-comment">
                     <b class="comment-user">{{ user.url }}</b>
 

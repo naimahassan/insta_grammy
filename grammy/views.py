@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 import datetime as dt 
-from django.contrib.auth.decorators import login_required
-from .models import Profile,Post,Comments,Likes,Follow
-from . forms import NewPostForm, NewCommentForm,NewProfileForm
 import mimetypes
+from django.contrib.auth.decorators import login_required
+from .models import Profile,Post,Comment,Likes,Follow
+from . forms import NewPostForm, NewCommentForm,NewProfileForm
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+import os
 
 
 # Create your views here.
@@ -15,15 +16,16 @@ def index(request):
     current_user = request.user
     grammy = Post.all_images()
     profiles = Profile.get_profile()
-    comment = Comments.get_comments()
+    comment = Comment.get_comments()
     like = Likes.get_likes()
-    following = Follow.get_following()
-    following_posts = []
-
-    for follow in following:
-        for posts in post:
-            if follow.profile == post.profile:
-                following_posts.append(post)
+    following = Follow.get_following(current_user)
+    grammy = []
+    for followed in following:
+        profiles = Profile.objects.filter(id=followed.profile.id)
+        # fro profile in profiles:
+        post = Post.objects.filter(user=profile.user)
+        for image in post:
+            grammy.append(image)
     return render(request,'index.html',{"grammy":grammy,"profiles":profiles,"following": following, "user":current_user, "following_posts":following_posts,"like":like})
 
 #logged in user on the profile icon
@@ -75,7 +77,24 @@ def likes(redirect,id):
     likes.save()
     return redirect(post,current_post.id)
 
-# displaying a single post
+
+@login_required(login_url='/accounts/login')
+def single_image(request, photo_id):
+    '''
+    View funtion to display a particular image with its details
+    '''
+    image = Post.objects.get(id =id)
+    user_info = Profile.objects.get(user=image.user.id)#fetch the profile of the user who posted
+    comments = Comment.objects.filter(post=image.id)
+    validate_vote = Likes.objects.filter(user=request.user,post=photo_id).count()
+    upvotes = Likes.get_post_likes(image.id)
+    likes = len(upvotes)
+    return render(request, 'all-grammy/posts.html', {'image':image, "user_info":user_info,"comments":comments, "likes":likes, "validate_vote":validate_vote})
+
+
+
+
+#displaying a single post
 @login_required(login_url='/accounts/register')
 def post(request,id):
     current_post = request.user
