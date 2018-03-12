@@ -32,10 +32,6 @@ class Profile(models.Model):
         return query    
 
                   
-
-
-
-
 class Follow(models.Model):
     # user = models.ForeignKey(User)
     profile = models.ForeignKey(Profile,null = True)
@@ -44,12 +40,9 @@ class Follow(models.Model):
         return self.profile
 
     @classmethod
-    def get_following(cls,user_id):
-        following =  Follow.objects.filter(user=user_id).all()
+    def get_following(cls):
+        following =  Follow.objects.all()
         return following
-
-
-
 
 
 # post models
@@ -103,7 +96,7 @@ class Likes(models.Model):
 class Comment(models.Model):
     comments = models.TextField(max_length = 100)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')
     
 
     def __str__(self):
@@ -111,7 +104,7 @@ class Comment(models.Model):
 
 
     # @classmethod
-    def get_comments(cls,post_id):
+    def get_comments():
         comment =  Comment.objects.all()
         return comment    
     

@@ -37,14 +37,14 @@
                     <i class="fa fa-comment"></i><a href ="{%url 'comment'%}"><i>comments</i></a></span>
 
 
-                <div class="feed-footer">
+                <!-- <div class="feed-footer">
                     <input type="text" class="ny" placeholder="Add a comment..." />
-                </div>
+                </div> -->
 
-                {% for comment_items in comment %}
-                <span class="comment-text"> {{comment_items.comments.url,comment_items.post_id}} </span>
+                {% for comment_item  in grammy.comments.all %}
+                <span class="comment-text"> {{comment_item.comments}} </span>
                 <div class="card-comment">
-                    <b class="comment-user">{{ user.url }}</b>
+                    <b class="comment-user">{{ comment_item.user}}</b>
 
                 </div>
 

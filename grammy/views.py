@@ -13,20 +13,22 @@ import os
 
 # Create your views here.
 def index(request):
-    current_user = request.user
+    # current_user = request.user
     grammy = Post.all_images()
-    profiles = Profile.get_profile()
-    comment = Comment.get_comments()
-    like = Likes.get_likes()
-    following = Follow.get_following(current_user)
-    grammy = []
-    for followed in following:
-        profiles = Profile.objects.filter(id=followed.profile.id)
-        # fro profile in profiles:
-        post = Post.objects.filter(user=profile.user)
-        for image in post:
-            grammy.append(image)
-    return render(request,'index.html',{"grammy":grammy,"profiles":profiles,"following": following, "user":current_user, "following_posts":following_posts,"like":like})
+    # profiles = Profile.get_profile()
+    form = NewCommentForm
+    form = NewProfileForm
+    # comment = Comment.get_comments()
+    # like = Likes.get_likes()
+    # following = Follow.get_following()
+    # grammy = []
+    # for followed in following:
+    #     profiles = Profile.objects.filter(id=followed.profile.id)
+    #     # fro profile in profiles:
+    #     post = Post.objects.filter(user=profile.user)
+    #     for image in post:
+    #         grammy.append(image)
+    return render(request,'index.html',{"grammy":grammy,"NewProfileForm":form,"NewCommentForm":form, })
 
 #logged in user on the profile icon
 
@@ -113,8 +115,8 @@ def new_post(request):
     if request.method == 'POST':
         form = NewPostForm(request.POST, request.FILES)
         if form.is_valid():
-            posts = form.save(commit=False)
-            posts.save()
+            post = form.save(commit=False)
+            post.save()
             return redirect('/')
     else:
         form = NewPostForm()
