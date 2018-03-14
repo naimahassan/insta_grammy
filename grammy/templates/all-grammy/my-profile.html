@@ -8,20 +8,21 @@
 <!-- Content block -->
 {% block content %} {{block.super}}
 
-            <h1>profiles here</h1>
-
-            {%for grammy_items in grammy%}
-                
-    
+            
 <div class="container">
         <div class="row ">
             <div class="col-md-4 col-lg-4 " style="border-color:rgb(90, 175, 250);">
-            <a href="{% url 'profile' grammy_items.id%}">{{grammy_items.user}} </a>
-            <img src="{{grammy_items.profile.image.url}}" alt="" style="width:75%;border-radius:50%">
-            <h5>{{grammy_items.bio |safe}}</h5>
-
-
+            <h3>{{post_profile.profile.user}} </h3>
+            <img src="{{post_profile.profile.image.url}}" alt="" style="width:75%;border-radius:50%">
+            <h5>{{post_profile.profile.bio}}</h5>
+            {% for item in grammy%}
+            <img src="{{item.image.url}}" alt="">
             {%endfor%}
+
+        
+
+
+            
         </div>
     </div>
 </div>

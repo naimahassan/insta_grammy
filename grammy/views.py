@@ -4,7 +4,7 @@ import datetime as dt
 import mimetypes
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Post,Comment,Likes,Follow
-from . forms import NewPostForm, NewCommentForm,NewProfileForm
+from . forms import NewPostForm, NewCommentForm,NewProfileForm,NewFollowForm
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -21,6 +21,7 @@ def index(request):
     comment_form = NewCommentForm
     profile_form = NewProfileForm
     comments = Comment.get_comments()
+    follows = NewFollowForm
     # like = Likes.get_likes()
     # following = Follow.get_following()
     # grammy = []
@@ -30,17 +31,18 @@ def index(request):
     #     post = Post.objects.filter(user=profile.user)
     #     for image in post:
     #         grammy.append(image)
-    return render(request,'index.html',{"grammy":grammy,"comment_form":NewCommentForm,"profile_form":NewProfileForm , "comments":comments})
+    return render(request,'index.html',{"grammy":grammy,"comment_form":NewCommentForm,"profile_form":NewProfileForm ,"NewFollowForm":follow ,"comments":comments})
 
 #logged in user on the profile icon
 
 @login_required(login_url='/accounts/register')
-def profile(request, id):
+def profile(request,user_id):
     current_user = request.user
-    single_profile = Profile.objects.get(id=id)
-    grammy = Post.all_images()
     
-    return render(request, 'all-grammy/my-profile.html', {"current_user":current_user,"grammy":grammy,"single_profile":single_profile})
+    grammy = Post.objects.filter(profile__id=user_id)
+    post_profile=Post.objects.get(id=user_id)
+
+    return render(request, 'all-grammy/my-profile.html', {"current_user":current_user,"grammy":grammy,"post_profile":post_profile})
     
 
 #displaying the posts page of a looged in user
@@ -102,8 +104,6 @@ def single_image(request, photo_id):
     upvotes = Likes.get_post_likes(image.id)
     likes = len(upvotes)
     return render(request, 'all-grammy/posts.html', {'image':image, "user_info":user_info,"comments":comments, "likes":likes, "validate_vote":validate_vote})
-
-
 
 
 #displaying a single post

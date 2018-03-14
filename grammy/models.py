@@ -69,7 +69,7 @@ class Post(models.Model):
 
     @classmethod
     def get_profile_posts(cls,profile_id):
-        profile_posts = Post.objects.filter(profile = profile_id).all()
+        profile_posts = Post.objects.filter(id = profile_id)
         return profile_posts
 class Likes(models.Model):
     likes = models.IntegerField(default=0)
