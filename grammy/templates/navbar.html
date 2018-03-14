@@ -14,42 +14,18 @@
       <a class="navbar-brand" href="{% url 'index' %}">insta grammy</a>
     </div>
   
+    <div class="row">
   <div class="col-sm-6 col-md-6">
+      <div class="col-sm-3 col-md-3 navbar-right"></div>
+
       {% if user.is_authenticated %}
-      <ul>
-        <li >
-          <a href="#">Account
-                    <span class="caret"></span>
-                </a>
-          <ul>
-            <li>
-              <a href="/accounts/password/change">Change Password</a>
-            </li>
-            <li>
-              <a href="/logout">Logout</a>
-            </li>
-            <li>
-              <a href = "{% url 'new-post'%}"> Post a gram</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      {% else %}
-      <li>
-        <a class='btn btn-default' href="/accounts/login">Login</a>
-      </li>
-      <li>
-        <a class='btn btn-default' href="/accounts/register">Sign Up</a>
-      </li>
-
-      {% endif %}
 
 
-    </div>
-  </div>
+
+
   <!-- Adding a search form  -->
-<div class="col-sm-4 col-md-4 navbar-right">
 
+  <div class="col-sm-6 col-md-6 navbar-right">
   <form class="navbar-form" role="search" action="">
 
     <div class="input-group">
@@ -61,12 +37,17 @@
 
   </form>
 </div>
+</div>
 <!-- search form end -->
+<div class="icon" style="margin-left:90%">
 <i style="font-size:24px" class="fa">&#xf2c6;</i>
 <i style="font-size:24px" class="fa">&#xf08a;</i>
 <i style="font-size:24px" class="fa">&#xf2c0;</i>
-
+</div>
+</div>
 </nav>
+
+{% endif %}
 
 </body>
 </html>

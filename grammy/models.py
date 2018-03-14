@@ -33,7 +33,7 @@ class Profile(models.Model):
 
                   
 class Follow(models.Model):
-    # user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile,null = True)
     
     def __str__(self):

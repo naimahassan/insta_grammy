@@ -12,6 +12,8 @@ import os
 
 
 # Create your views here.
+
+@login_required(login_url='/accounts/login')
 def index(request):
     # current_user = request.user
     grammy = Post.all_images()
@@ -37,6 +39,7 @@ def profile(request, id):
     current_user = request.user
     single_profile = Profile.objects.get(id=id)
     grammy = Post.all_images()
+    
     return render(request, 'all-grammy/my-profile.html', {"current_user":current_user,"grammy":grammy,"single_profile":single_profile})
     
 
@@ -55,18 +58,25 @@ def all_images(request):
 
 #adding a profile to the posts
 @login_required(login_url='/accounts/register')
-def follow(request,id):
-    current_user = request.user
-    follow_profile = Profile.objects.get(id=id)
-    following = Follow(user = current_user,profile = follow_profile)
-    following.save()
+def follow(request):
+    form = NewFollowForm(request.POST)
+    if form.is_valid():
+        follow = form.instance
+        follow.user = request.user
+        follow.save()
+        return redirect('/')
+# def follow(request,id):
+#     current_user = request.user
+#     follow_profile = Profile.objects.get(id=id)
+#     following = Follow(user = current_user,profile = follow_profile)
+#     following.save()
 
-    return redirect("following")
-    context = {
-        "follow":follow_profile,
-        "following":following
-    }
-    return render(request,'index.html', context)
+#     return redirect("following")
+#     context = {
+#         "follow":follow_profile,
+#         "following":following
+#     }
+#     return render(request,'index.html', context)
 
 
 

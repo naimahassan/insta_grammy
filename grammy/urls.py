@@ -11,6 +11,7 @@ urlpatterns=[
     url(r'^likes/(\d+)',views.likes , name = "likes"),
     url(r'^post/(\d+)',views.post,name = "post"),
     url(r'^create/comment/$', views.comment, name="comment" ),
+    
 
 
 ]

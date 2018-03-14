@@ -83,7 +83,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'grammy2',
+        'NAME': 'grammy0',
         'PASSWORD': '12345',
         'HOST': '127.0.0.1',
     }
