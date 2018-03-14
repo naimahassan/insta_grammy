@@ -1,11 +1,4 @@
 {% extends 'all-grammy/base.html' %} {% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="grammy.js"></script>
-
-
-                
 
 <div class="container">
     <div class="col-lg-6 col-lg-offset-3">
@@ -15,11 +8,8 @@
                 
                 {%for grammy_items in grammy%}
                 
-                {% for following_items in following%}
-                {%endfor%}
-
-
-                <a href="#">{{grammy_items.user}} </a>
+    
+                <a href="{% url 'profile' grammy_items.id%}">{{grammy_items.user}} </a>
                 <img src="{{grammy_items.image.url}}" alt="" style="width:25%;border-radius:50%">
                 <h5>{{grammy_items.caption |safe}}</h5>
 
@@ -41,7 +31,7 @@
                     <input type="text" class="ny" placeholder="Add a comment..." />
                 </div> -->
 
-                {% for comment_item  in grammy.comments.all %}
+                {% for comment_item  in comments %}
                 <span class="comment-text"> {{comment_item.comments}} </span>
                 <div class="card-comment">
                     <b class="comment-user">{{ comment_item.user}}</b>

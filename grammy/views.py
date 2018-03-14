@@ -16,9 +16,9 @@ def index(request):
     # current_user = request.user
     grammy = Post.all_images()
     # profiles = Profile.get_profile()
-    form = NewCommentForm
-    form = NewProfileForm
-    # comment = Comment.get_comments()
+    comment_form = NewCommentForm
+    profile_form = NewProfileForm
+    comments = Comment.get_comments()
     # like = Likes.get_likes()
     # following = Follow.get_following()
     # grammy = []
@@ -28,16 +28,16 @@ def index(request):
     #     post = Post.objects.filter(user=profile.user)
     #     for image in post:
     #         grammy.append(image)
-    return render(request,'index.html',{"grammy":grammy,"NewProfileForm":form,"NewCommentForm":form, })
+    return render(request,'index.html',{"grammy":grammy,"comment_form":NewCommentForm,"profile_form":NewProfileForm , "comments":comments})
 
 #logged in user on the profile icon
 
 @login_required(login_url='/accounts/register')
-def profile(request,id):
+def profile(request, id):
     current_user = request.user
-    single_profile = Profile.objects.get(id = id)
-    grammy = Post.all-images()
-    return render(request, 'all-grammy/my_profile.html', {"current_user":current_user,"grammy":grammy,"single_profile":single_profile})
+    single_profile = Profile.objects.get(id=id)
+    grammy = Post.all_images()
+    return render(request, 'all-grammy/my-profile.html', {"current_user":current_user,"grammy":grammy,"single_profile":single_profile})
     
 
 #displaying the posts page of a looged in user
@@ -116,6 +116,7 @@ def new_post(request):
         form = NewPostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
+            post = current_user
             post.save()
             return redirect('/')
     else:
@@ -137,7 +138,7 @@ def comment(request):
     return render(request,'all-grammy/new-comment.html', {"form":form,"current_post":post})        
 
 @login_required(login_url='/accounts/register')
-def profile(request):
+def new_profile(request):
     post = Post.objects.all()
     if request.method == 'POST':
         form = NewProfileForm(request.POST)
@@ -148,4 +149,3 @@ def profile(request):
     else:
         form = NewProfileForm()
     return render(request,'all-grammy/new-profile.html', {"form":form,"current_post":post})
-

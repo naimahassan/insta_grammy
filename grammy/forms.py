@@ -9,7 +9,11 @@ class NewPostForm(forms.ModelForm):
 class NewCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        exclude = ['user']
+        fields = [
+            'comments',
+            'user',
+            'post'
+        ]
 
 class NewProfileForm(forms.ModelForm):
     class Meta:
