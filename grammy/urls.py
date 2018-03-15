@@ -11,7 +11,7 @@ urlpatterns=[
     url(r'^likes/(\d+)',views.likes , name = "likes"),
     url(r'^post/(\d+)',views.post,name = "post"),
     url(r'^create/comment/$', views.comment, name="comment" ),
-    # url(r'^search/(\d+)',views.search, name = "search")
+    url(r'^search/',views.search_profile, name ="search_profile"),
     
 
 

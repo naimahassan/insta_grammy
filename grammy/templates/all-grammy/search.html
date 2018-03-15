@@ -7,6 +7,26 @@
 
 <!-- Content block -->
 {% block content %} {{block.super}}
+<di class="row">
+    <div class="col-sm-6">
+        {%if profiles%}
+        <h2>found {{profiles|length}} of searched tearm {{meassage}} </h2>
+        {%else%}
+        <h2> found 0 user for the searched tearm {{message}}</h2>
+        {%endif%}
+    </div>
+</di>
 
-<p>no profile found</p>
+
+<div class="row">
+ {% if profiles%}
+ {% for profile_items in profiles%}
+ 
+    <div class="col-sm-4">
+<img src="{{profile_items.image.url}}" alt="">
+<p>username : {{profile_items.user.username}}</p>
+<p>Bio : {{profile_items.bio}}</p>    </div>
+</div>
+{%endfor%}
+{%endif%}
 {%endblock%}

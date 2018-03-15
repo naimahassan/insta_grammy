@@ -44,6 +44,21 @@ def profile(request,user_id):
 
     return render(request, 'all-grammy/my-profile.html', {"current_user":current_user,"grammy":grammy,"post_profile":post_profile})
     
+@login_required(login_url='/accounts/register')
+def search_profile(request):
+    if 'user_name' in request.GET and request.GET["user_name"]:
+       search_term = request.GET.get('user_name')
+       searched_user = Profile.searched_profile(search_term)
+
+       message = f"{search_term}"
+
+       return render(request, 'all-grammy/search.html',{"message":message,"profiles": searched_user})
+
+    else:
+       message = "You haven't searched for any term"
+       return render(request, 'all-grammy/search.html',{"message":message})
+
+
 
 #displaying the posts page of a looged in user
 @login_required(login_url='/accounts/register')

@@ -28,7 +28,7 @@ class Profile(models.Model):
 
      @classmethod
      def searched_profile(cls,search_term):
-        query = cls.objects.filter(bio__icontains=search_term)
+        query = cls.objects.filter(user__username__icontains=search_term)
         return query    
 
                   
