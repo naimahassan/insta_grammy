@@ -71,6 +71,7 @@ class Post(models.Model):
     def get_profile_posts(cls,profile_id):
         profile_posts = Post.objects.filter(id = profile_id)
         return profile_posts
+        
 class Likes(models.Model):
     likes = models.IntegerField(default=0)
     user = models.ForeignKey(User,on_delete=models.CASCADE)

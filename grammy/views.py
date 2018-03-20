@@ -151,7 +151,7 @@ def new_post(request):
 
 @login_required(login_url='/accounts/register')
 def comment(request):
-    post = Post.objects.all()
+    post = Post.all_images()
     if request.method == 'POST':
         form = NewCommentForm(request.POST)
         if form.is_valid():
